@@ -1,0 +1,23 @@
+{
+  "name": "spiral/exceptions",
+  "type": "library",
+  "description": "Exceptions Toolkit: exception and error handler, CLI and HTML renderer",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Wolfy-J",
+      "email": "wolfy.jd@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Spiral\\Debug\\": "src/"
+    }
+  }
+}
