@@ -76,10 +76,6 @@ class HtmlHandler extends AbstractHandler
             'environment'  => '',
         ];
 
-        if ($verbosity >= self::VERBOSITY_DEBUG) {
-            $options['environment'] = $this->render('partials/environment', ['dumper' => $this->dumper]);
-        }
-
         $options['stacktrace'] = $this->render('partials/stacktrace', [
             'exception'    => $e,
             'stacktrace'   => $this->getStacktrace($e),
@@ -95,6 +91,10 @@ class HtmlHandler extends AbstractHandler
             'stacktrace'   => $this->getStacktrace($e),
             'valueWrapper' => $options['valueWrapper'],
         ]);
+
+        if ($verbosity >= self::VERBOSITY_DEBUG) {
+            $options['environment'] = $this->render('partials/environment', ['dumper' => $this->dumper]);
+        }
 
         return $this->render("exception", $options);
     }
