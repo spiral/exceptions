@@ -80,7 +80,7 @@ class HandlerTest extends TestCase
         $this->assertContains(__FILE__, $result);
     }
 
-    public function testHtmlHandlerDefault()
+    public function testHtmlHandlerDefaultBasic()
     {
         $handler = new HtmlHandler(HtmlHandler::DEFAULT);
 
@@ -96,7 +96,7 @@ class HandlerTest extends TestCase
         $this->assertContains(__FILE__, $result);
     }
 
-    public function testHtmlHandlerInverted()
+    public function testHtmlHandlerInvertedBasic()
     {
         $handler = new HtmlHandler(HtmlHandler::INVERTED);
 
@@ -106,6 +106,56 @@ class HandlerTest extends TestCase
             __FILE__,
             __LINE__
         ), HandlerInterface::VERBOSITY_BASIC);
+
+        $this->assertContains("Error", $result);
+        $this->assertContains("message", $result);
+        $this->assertContains(__FILE__, $result);
+    }
+
+
+    public function testConsoleHandlerWithColorsDebug()
+    {
+        $handler = new ConsoleHandler();
+        $handler->setColorsSupport(true);
+
+        $result = $handler->renderException(new Error(
+            "message",
+            100,
+            __FILE__,
+            __LINE__
+        ), HandlerInterface::VERBOSITY_DEBUG);
+
+        $this->assertContains("Error", $result);
+        $this->assertContains("message", $result);
+        $this->assertContains(__FILE__, $result);
+    }
+
+    public function testHtmlHandlerDefaultDebug()
+    {
+        $handler = new HtmlHandler(HtmlHandler::DEFAULT);
+
+        $result = $handler->renderException(new Error(
+            "message",
+            100,
+            __FILE__,
+            __LINE__
+        ), HandlerInterface::VERBOSITY_DEBUG);
+
+        $this->assertContains("Error", $result);
+        $this->assertContains("message", $result);
+        $this->assertContains(__FILE__, $result);
+    }
+
+    public function testHtmlHandlerInvertedDebug()
+    {
+        $handler = new HtmlHandler(HtmlHandler::INVERTED);
+
+        $result = $handler->renderException(new Error(
+            "message",
+            100,
+            __FILE__,
+            __LINE__
+        ), HandlerInterface::VERBOSITY_DEBUG);
 
         $this->assertContains("Error", $result);
         $this->assertContains("message", $result);
