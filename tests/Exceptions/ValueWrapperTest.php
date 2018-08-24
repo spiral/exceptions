@@ -38,13 +38,27 @@ class ValueWrapperTest extends TestCase
         $this->assertContains("array", join(",", $wrapper->wrap([["hello world"]])));
     }
 
+    public function testNull()
+    {
+        $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), 0);
+
+        $this->assertContains("null", join(",", $wrapper->wrap([null])));
+    }
+
+    public function testBool()
+    {
+        $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), 0);
+
+        $this->assertContains("true", join(",", $wrapper->wrap([true])));
+        $this->assertContains("false", join(",", $wrapper->wrap([false])));
+    }
+
     public function testObject()
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), 0);
 
         $this->assertContains("Dumper", join(",", $wrapper->wrap([new Dumper()])));
     }
-
 
     public function testDoNotAggregateValues()
     {
