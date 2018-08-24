@@ -52,6 +52,16 @@ class ConsoleHandler extends AbstractHandler
     }
 
     /**
+     * Disable or enable colorization support.
+     *
+     * @param bool $enabled
+     */
+    public function setColorsSupport(bool $enabled = true)
+    {
+        $this->colorsSupport = $enabled;
+    }
+
+    /**
      * @inheritdoc
      */
     public function renderException(\Throwable $e, int $verbosity = self::VERBOSITY_BASIC): string
