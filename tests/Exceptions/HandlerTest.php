@@ -112,7 +112,6 @@ class HandlerTest extends TestCase
         $this->assertContains(__FILE__, $result);
     }
 
-
     public function testConsoleHandlerWithColorsDebug()
     {
         $handler = new ConsoleHandler();
@@ -160,5 +159,69 @@ class HandlerTest extends TestCase
         $this->assertContains("Error", $result);
         $this->assertContains("message", $result);
         $this->assertContains(__FILE__, $result);
+    }
+
+    public function testConsoleHandlerStacktrace()
+    {
+        $handler = new ConsoleHandler();
+        $handler->setColorsSupport(true);
+
+        try {
+            $this->makeException();
+        } catch (\Throwable $e) {
+
+        }
+
+        $result = $handler->renderException($e, HandlerInterface::VERBOSITY_DEBUG);
+
+        $this->assertContains("LogicException", $result);
+        $this->assertContains("makeException", $result);
+    }
+
+    public function testHtmlHandlerStacktrace()
+    {
+        $handler = new HtmlHandler(HtmlHandler::DEFAULT);
+
+        try {
+            $this->makeException();
+        } catch (\Throwable $e) {
+
+        }
+
+        $result = $handler->renderException($e, HandlerInterface::VERBOSITY_DEBUG);
+
+        $this->assertContains("RuntimeException", $result);
+        $this->assertContains("LogicException", $result);
+        $this->assertContains("makeException", $result);
+    }
+
+    public function testHtmlHandlerInvertedStacktrace()
+    {
+        $handler = new HtmlHandler(HtmlHandler::INVERTED);
+
+        try {
+            $this->makeException();
+        } catch (\Throwable $e) {
+
+        }
+
+        $result = $handler->renderException($e, HandlerInterface::VERBOSITY_DEBUG);
+
+        $this->assertContains("RuntimeException", $result);
+        $this->assertContains("LogicException", $result);
+        $this->assertContains("makeException", $result);
+    }
+
+    function makeException()
+    {
+        try {
+            $f = function () {
+                throw new \RuntimeException("error");
+            };
+
+            $f();
+        } catch (\Throwable $e) {
+            throw new \LogicException("error", 0, $e);
+        }
     }
 }
