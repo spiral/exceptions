@@ -20,7 +20,7 @@ class HtmlHandler extends AbstractHandler
     /**
      * Visual styles.
      */
-    const DEFAULT = "default";
+    const DEFAULT  = "default";
     const INVERTED = "inverted";
 
     /**
@@ -93,7 +93,8 @@ class HtmlHandler extends AbstractHandler
         ]);
 
         if ($verbosity >= self::VERBOSITY_DEBUG) {
-            $options['environment'] = $this->render('partials/environment', ['dumper' => $this->dumper]);
+            $options['environment'] = $this->render('partials/environment',
+                ['dumper' => $this->dumper]);
         }
 
         return $this->render("exception", $options);
@@ -112,6 +113,7 @@ class HtmlHandler extends AbstractHandler
 
         ob_start();
         require $this->getFilename($view);
+
         return ob_get_clean();
     }
 
@@ -123,6 +125,6 @@ class HtmlHandler extends AbstractHandler
      */
     private function getFilename(string $view): string
     {
-        return sprintf("%s/views/%s.php", basename(__DIR__), $view);
+        return sprintf("%s/views/%s.php", __DIR__, $view);
     }
 }
