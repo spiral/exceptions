@@ -30,6 +30,9 @@ abstract class AbstractHandler implements HandlerInterface
     protected function getStacktrace(\Throwable $e): array
     {
         $stacktrace = $e->getTrace();
+        if (empty($stacktrace)) {
+            return [];
+        }
 
         //Let's let's clarify exception location
         $header = [
