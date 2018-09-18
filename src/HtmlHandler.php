@@ -10,7 +10,7 @@ namespace Spiral\Exceptions;
 
 use Spiral\Debug\Dumper;
 use Spiral\Debug\Renderer\HtmlRenderer;
-use Spiral\Exceptions\Styles\HtmlStyle;
+use Spiral\Exceptions\Style\HtmlStyle;
 
 /**
  * Render exception information into html.

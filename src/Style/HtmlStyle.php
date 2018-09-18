@@ -6,7 +6,7 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Exceptions\Styles;
+namespace Spiral\Exceptions\Style;
 
 use Spiral\Exceptions\StyleInterface;
 
@@ -161,7 +161,7 @@ class HtmlStyle implements StyleInterface
     ];
 
     /**
-     * Styles associated with token types.
+     * Style associated with token types.
      *
      * @var array
      */
