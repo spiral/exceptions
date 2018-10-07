@@ -11,7 +11,8 @@ namespace Spiral\Exceptions\Styles;
 use Spiral\Exceptions\StyleInterface;
 
 /**
- * HTML based styling of given source code. Attention, you have to manually wrap generated code using html block.
+ * HTML based styling of given source code. Attention, you have to manually wrap generated code
+ * using html block.
  */
 class HtmlStyle implements StyleInterface
 {
@@ -183,12 +184,12 @@ class HtmlStyle implements StyleInterface
         $style = $this->getStyle($token, $previous);
 
         if (strpos($token[1], "\n") === false) {
-            return sprintf($this->templates['token'], $style, $token[1]);
+            return sprintf($this->templates['token'], $style, htmlspecialchars($token[1]));
         }
 
         $lines = [];
         foreach (explode("\n", $token[1]) as $line) {
-            $lines[] = sprintf($this->templates['token'], $style, $line);
+            $lines[] = sprintf($this->templates['token'], $style, htmlspecialchars($line));
         }
 
         return implode("\n", $lines);
