@@ -6,7 +6,7 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Exceptions\Styles;
+namespace Spiral\Exceptions\Style;
 
 use Codedungeon\PHPCliColors\Color;
 use Spiral\Exceptions\StyleInterface;

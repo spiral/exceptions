@@ -10,9 +10,9 @@ namespace Spiral\Debug\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Spiral\Exceptions\Highlighter;
-use Spiral\Exceptions\Styles\ConsoleStyle;
-use Spiral\Exceptions\Styles\HtmlStyle;
-use Spiral\Exceptions\Styles\PlainStyle;
+use Spiral\Exceptions\Style\ConsoleStyle;
+use Spiral\Exceptions\Style\HtmlStyle;
+use Spiral\Exceptions\Style\PlainStyle;
 
 class HighlighterTest extends TestCase
 {

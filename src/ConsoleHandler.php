@@ -10,8 +10,8 @@ namespace Spiral\Exceptions;
 
 use Codedungeon\PHPCliColors\Color;
 use Spiral\Debug\System;
-use Spiral\Exceptions\Styles\ConsoleStyle;
-use Spiral\Exceptions\Styles\PlainStyle;
+use Spiral\Exceptions\Style\ConsoleStyle;
+use Spiral\Exceptions\Style\PlainStyle;
 
 /**
  * Verbosity levels:
