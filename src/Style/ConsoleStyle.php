@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Spiral Framework.
  *
@@ -115,7 +115,7 @@ class ConsoleStyle implements StyleInterface
     {
         return sprintf(
             $this->templates[$target ? 'active' : 'line'],
-            str_pad($number, 4, " ", STR_PAD_LEFT),
+            str_pad((string)$number, 4, " ", STR_PAD_LEFT),
             $code
         );
     }
