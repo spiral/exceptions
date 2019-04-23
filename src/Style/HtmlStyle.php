@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Exceptions\Style;
 
@@ -14,7 +15,7 @@ use Spiral\Exceptions\StyleInterface;
  * HTML based styling of given source code. Attention, you have to manually wrap generated code
  * using html block.
  */
-class HtmlStyle implements StyleInterface
+final class HtmlStyle implements StyleInterface
 {
     /**
      * Default code styles.

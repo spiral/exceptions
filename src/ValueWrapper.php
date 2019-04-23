@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Exceptions;
 
@@ -16,7 +17,7 @@ use Spiral\Debug\RendererInterface;
  *
  * @internal
  */
-class ValueWrapper
+final class ValueWrapper
 {
     /** @var RendererInterface */
     private $r;

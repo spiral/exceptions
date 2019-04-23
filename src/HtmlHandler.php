@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Exceptions;
 
@@ -15,7 +16,7 @@ use Spiral\Exceptions\Style\HtmlStyle;
 /**
  * Render exception information into html.
  */
-class HtmlHandler extends AbstractHandler
+final class HtmlHandler extends AbstractHandler
 {
     /**
      * Visual styles.

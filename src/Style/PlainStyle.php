@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Exceptions\Style;
 
@@ -13,7 +14,7 @@ use Spiral\Exceptions\StyleInterface;
 /**
  * Similar to ConsoleRenderer but without colorization.
  */
-class PlainStyle implements StyleInterface
+final class PlainStyle implements StyleInterface
 {
     /**
      * @inheritdoc

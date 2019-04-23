@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Exceptions;
 
@@ -20,7 +21,7 @@ use Spiral\Exceptions\Style\PlainStyle;
  * 2) VERBOSE - stack information
  * 3) DEBUG   - stack and source information.
  */
-class ConsoleHandler extends AbstractHandler
+final class ConsoleHandler extends AbstractHandler
 {
     const COLORS = [
         'bg:red'     => Color::BG_RED,

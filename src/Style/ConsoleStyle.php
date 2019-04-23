@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Exceptions\Style;
 
@@ -14,7 +15,7 @@ use Spiral\Exceptions\StyleInterface;
 /**
  * Colorful source code highlighter for CLI applications.
  */
-class ConsoleStyle implements StyleInterface
+final class ConsoleStyle implements StyleInterface
 {
     /** @var array */
     protected $templates = [
