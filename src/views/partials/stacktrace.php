@@ -37,7 +37,7 @@ foreach ($stacktrace as $trace) {
             <?= $function ?>(<span class="arguments"><?= join(', ', $args) ?></span>)<br/>
             <em>In&nbsp;<?= $trace['file'] ?>&nbsp;at&nbsp;<strong>line <?= $trace['line'] ?></strong></em>
         </div>
-        <?php if ($showSource) : ?>
+        <?php if ($showSource && file_exists($trace['file'])) : ?>
             <div class="lines">
                 <?= $highlighter->highlightLines(file_get_contents($trace['file']), $trace['line']) ?>
             </div>
