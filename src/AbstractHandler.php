@@ -49,6 +49,6 @@ abstract class AbstractHandler implements HandlerInterface
             $stacktrace = array_merge($e->getUserTrace(), $stacktrace);
         }
 
-        return $stacktrace;
+        return array_values($stacktrace);
     }
 }
