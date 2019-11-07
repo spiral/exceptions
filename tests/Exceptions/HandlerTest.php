@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Spiral\Exceptions\ConsoleHandler;
 use Spiral\Exceptions\HandlerInterface;
 use Spiral\Exceptions\HtmlHandler;
+use Spiral\Exceptions\JsonHandler;
 use Spiral\Exceptions\PlainHandler;
 
 class HandlerTest extends TestCase
@@ -223,6 +224,20 @@ class HandlerTest extends TestCase
         $this->assertContains('makeException', $result);
     }
 
+    public function testJsonHandler(): void
+    {
+        $handler = new JsonHandler();
+
+        try {
+            $this->makeException();
+        } catch (\Throwable $e) {
+        }
+
+        $result = $handler->renderException($e, HandlerInterface::VERBOSITY_DEBUG);
+
+        $this->assertContains('LogicException', $result);
+        $this->assertContains('makeException', $result);
+    }
 
     public function testHtmlHandlerStacktrace(): void
     {

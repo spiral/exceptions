@@ -23,7 +23,7 @@ foreach ($stacktrace as $trace) {
         );
     }
 
-    if (!isset($trace['file'])) { ?>
+    if (!isset($trace['file']) || !file_exists($trace['file'])) { ?>
         <div class="container no-trace">
             <?= $function ?>(<span class="arguments"><?= join(', ', $args) ?></span>)
         </div>
