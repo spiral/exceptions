@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -6,8 +7,9 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Debug\Tests;
+declare(strict_types=1);
 
+namespace Spiral\Debug\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Spiral\Debug\Dumper;
@@ -17,82 +19,82 @@ use Spiral\Exceptions\ValueWrapper;
 
 class ValueWrapperTest extends TestCase
 {
-    public function testInteger()
+    public function testInteger(): void
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), 0);
 
-        $this->assertContains("100", join(",", $wrapper->wrap([100])));
+        $this->assertContains('100', join(',', $wrapper->wrap([100])));
     }
 
-    public function testString()
+    public function testString(): void
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), 0);
 
-        $this->assertContains("string", join(",", $wrapper->wrap(["hello world"])));
+        $this->assertContains('string', join(',', $wrapper->wrap(['hello world'])));
     }
 
-    public function testArray()
+    public function testArray(): void
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), 0);
 
-        $this->assertContains("array", join(",", $wrapper->wrap([["hello world"]])));
+        $this->assertContains('array', join(',', $wrapper->wrap([['hello world']])));
     }
 
-    public function testNull()
+    public function testNull(): void
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), 0);
 
-        $this->assertContains("null", join(",", $wrapper->wrap([null])));
+        $this->assertContains('null', join(',', $wrapper->wrap([null])));
     }
 
-    public function testBool()
+    public function testBool(): void
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), 0);
 
-        $this->assertContains("true", join(",", $wrapper->wrap([true])));
-        $this->assertContains("false", join(",", $wrapper->wrap([false])));
+        $this->assertContains('true', join(',', $wrapper->wrap([true])));
+        $this->assertContains('false', join(',', $wrapper->wrap([false])));
     }
 
-    public function testObject()
+    public function testObject(): void
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), 0);
 
-        $this->assertContains("Dumper", join(",", $wrapper->wrap([new Dumper()])));
+        $this->assertContains('Dumper', join(',', $wrapper->wrap([new Dumper()])));
     }
 
-    public function testDoNotAggregateValues()
+    public function testDoNotAggregateValues(): void
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), 0);
 
-        $this->assertContains("100", join(",", $wrapper->wrap([100])));
+        $this->assertContains('100', join(',', $wrapper->wrap([100])));
         $this->assertCount(0, $wrapper->getValues());
     }
 
-    public function testAggregateValues()
+    public function testAggregateValues(): void
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), HandlerInterface::VERBOSITY_DEBUG);
 
-        $this->assertContains("string", join(",", $wrapper->wrap(["hello"])));
+        $this->assertContains('string', join(',', $wrapper->wrap(['hello'])));
         $this->assertCount(1, $wrapper->getValues());
     }
 
-    public function testAggregateMultipleValues()
+    public function testAggregateMultipleValues(): void
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), HandlerInterface::VERBOSITY_DEBUG);
 
-        $this->assertContains("string", join(",", $wrapper->wrap(["hello"])));
-        $this->assertContains("string", join(",", $wrapper->wrap(["hello"])));
-        $this->assertContains("string", join(",", $wrapper->wrap(["hello"])));
-        $this->assertContains("string", join(",", $wrapper->wrap(["hello"])));
+        $this->assertContains('string', join(',', $wrapper->wrap(['hello'])));
+        $this->assertContains('string', join(',', $wrapper->wrap(['hello'])));
+        $this->assertContains('string', join(',', $wrapper->wrap(['hello'])));
+        $this->assertContains('string', join(',', $wrapper->wrap(['hello'])));
 
         $this->assertCount(1, $wrapper->getValues());
     }
 
-    public function testAggregateValuesInline()
+    public function testAggregateValuesInline(): void
     {
         $wrapper = new ValueWrapper(new Dumper(), new PlainRenderer(), HandlerInterface::VERBOSITY_DEBUG);
 
-        $this->assertContains("100", join(",", $wrapper->wrap([100])));
+        $this->assertContains('100', join(',', $wrapper->wrap([100])));
         $this->assertCount(0, $wrapper->getValues());
     }
 }

@@ -29,9 +29,7 @@ foreach ($stacktrace as $trace) {
         </div>
         <?php
         continue;
-    }
-
-    ?>
+    } ?>
     <div class="container">
         <div class="location">
             <?= $function ?>(<span class="arguments"><?= join(', ', $args) ?></span>)<br/>
@@ -43,4 +41,5 @@ foreach ($stacktrace as $trace) {
             </div>
         <?php endif; ?>
     </div>
-<?php }
+    <?php
+}

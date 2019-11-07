@@ -34,11 +34,10 @@ foreach ($stacktrace as $index => $trace) {
     $args = [];
     if (isset($trace['args'])) {
         $args = $valueWrapper->wrap($trace['args']);
-    }
-
-    ?>
+    } ?>
     <div class="call">
         <div class="function"><?= $function ?>(<span class="arguments"><?= join(', ', $args) ?></span>)</div>
         <div class="location"><i><?= $trace['file'] ?></i> at <strong>line <?= $trace['line'] ?></strong></div>
     </div>
-<?php } ?>
+    <?php
+} ?>

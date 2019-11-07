@@ -12,9 +12,7 @@
         if (!empty($GLOBALS[$variable])) {
             if ($name == 'SERVER' && isset($_SERVER['PATH']) && is_string($_SERVER['PATH'])) {
                 $_SERVER['PATH'] = explode(PATH_SEPARATOR, $_SERVER['PATH']);
-            }
-
-            ?>
+            } ?>
             <div class="container">
                 <div class="title" onclick="toggle('environment-<?= $name ?>')">
                     <?= $name ?> (<?= number_format(count($GLOBALS[$variable])) ?>)

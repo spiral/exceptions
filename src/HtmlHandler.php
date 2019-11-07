@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+
+declare(strict_types=1);
 
 namespace Spiral\Exceptions;
 
@@ -20,18 +23,8 @@ class HtmlHandler extends AbstractHandler
     /**
      * Visual styles.
      */
-    const DEFAULT  = "default";
-    const INVERTED = "inverted";
-
-    /**
-     * @var string
-     */
-    private $style = self::DEFAULT;
-
-    /**
-     * @var Dumper
-     */
-    private $dumper = null;
+    public const DEFAULT  = 'default';
+    public const INVERTED = 'inverted';
 
     /**
      * @var HtmlRenderer
@@ -42,6 +35,16 @@ class HtmlHandler extends AbstractHandler
      * @var Highlighter
      */
     protected $highlighter = null;
+
+    /**
+     * @var string
+     */
+    private $style = self::DEFAULT;
+
+    /**
+     * @var Dumper
+     */
+    private $dumper = null;
 
     /**
      * @param string $style
@@ -71,8 +74,8 @@ class HtmlHandler extends AbstractHandler
             'message'      => $this->getMessage($e),
             'exception'    => $e,
             'valueWrapper' => new ValueWrapper($this->dumper, $this->renderer, $verbosity),
-            'style'        => $this->render("styles/" . $this->style),
-            'footer'       => $this->render("partials/footer"),
+            'style'        => $this->render('styles/' . $this->style),
+            'footer'       => $this->render('partials/footer'),
             'environment'  => '',
         ];
 
@@ -93,11 +96,13 @@ class HtmlHandler extends AbstractHandler
         ]);
 
         if ($verbosity >= self::VERBOSITY_DEBUG) {
-            $options['environment'] = $this->render('partials/environment',
-                ['dumper' => $this->dumper]);
+            $options['environment'] = $this->render(
+                'partials/environment',
+                ['dumper' => $this->dumper]
+            );
         }
 
-        return $this->render("exception", $options);
+        return $this->render('exception', $options);
     }
 
     /**
@@ -125,6 +130,6 @@ class HtmlHandler extends AbstractHandler
      */
     private function getFilename(string $view): string
     {
-        return sprintf("%s/views/%s.php", __DIR__, $view);
+        return sprintf('%s/views/%s.php', dirname(__DIR__), $view);
     }
 }

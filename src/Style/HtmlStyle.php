@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+
+declare(strict_types=1);
 
 namespace Spiral\Exceptions\Style;
 
@@ -19,7 +22,7 @@ class HtmlStyle implements StyleInterface
     /**
      * Default code styles.
      */
-    const DEFAULT = [
+    public const DEFAULT = [
         'color: blue; font-weight: bold;'   => [
             T_STATIC,
             T_PUBLIC,
@@ -84,7 +87,7 @@ class HtmlStyle implements StyleInterface
         ],
     ];
 
-    const INVERTED = [
+    public const INVERTED = [
         'color: #FF8B00; font-weight: bold;' => [
             T_STATIC,
             T_PUBLIC,

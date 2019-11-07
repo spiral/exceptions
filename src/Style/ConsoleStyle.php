@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+
+declare(strict_types=1);
 
 namespace Spiral\Exceptions\Style;
 
@@ -19,8 +22,8 @@ class ConsoleStyle implements StyleInterface
     /** @var array */
     protected $templates = [
         'token'  => '%s%s' . Color::RESET,
-        'line'   => Color::LIGHT_CYAN . " %s " . Color::RESET . " %s\n",
-        'active' => Color::BG_RED . " " . Color::LIGHT_WHITE . "%s " . Color::RESET . " %s\n",
+        'line'   => Color::LIGHT_CYAN . ' %s ' . Color::RESET . " %s\n",
+        'active' => Color::BG_RED . ' ' . Color::LIGHT_WHITE . '%s ' . Color::RESET . " %s\n",
     ];
 
     /** @var array */
@@ -115,7 +118,7 @@ class ConsoleStyle implements StyleInterface
     {
         return sprintf(
             $this->templates[$target ? 'active' : 'line'],
-            str_pad((string)$number, 4, " ", STR_PAD_LEFT),
+            str_pad((string)$number, 4, ' ', STR_PAD_LEFT),
             $code
         );
     }

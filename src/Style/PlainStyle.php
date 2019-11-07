@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+
+declare(strict_types=1);
 
 namespace Spiral\Exceptions\Style;
 
@@ -31,14 +34,14 @@ class PlainStyle implements StyleInterface
         if ($target) {
             return sprintf(
                 ">%s %s\n",
-                str_pad((string)$number, 4, " ", STR_PAD_LEFT),
+                str_pad((string)$number, 4, ' ', STR_PAD_LEFT),
                 $code
             );
         }
 
         return sprintf(
             " %s %s\n",
-            str_pad((string)$number, 4, " ", STR_PAD_LEFT),
+            str_pad((string)$number, 4, ' ', STR_PAD_LEFT),
             $code
         );
     }

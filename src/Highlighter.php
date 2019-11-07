@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+
+declare(strict_types=1);
 
 namespace Spiral\Exceptions;
 
@@ -36,7 +39,7 @@ class Highlighter
     {
         $lines = explode("\n", str_replace("\r\n", "\n", $this->highlight($source)));
 
-        $result = "";
+        $result = '';
         foreach ($lines as $number => $code) {
             $human = $number + 1;
             if (!empty($around) && ($human < $line - $around || $human >= $line + $around + 1)) {
