@@ -4,7 +4,7 @@
         background-color: #e0e0e0;
         font-size: 14px;
         padding: 5px;
-        color: #141414;
+        color: rgba(71,86,105,.95);
     }
 
     .spiral-exception .wrapper {
@@ -116,7 +116,7 @@
     }
 
     .spiral-exception .wrapper .stacktrace .trace .lines div.active {
-        background-color: #ffeaaa;
+        background-color: #fff8b5;
     }
 
     .spiral-exception .wrapper .stacktrace .chain {
