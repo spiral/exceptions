@@ -13,6 +13,7 @@ namespace Spiral\Exceptions;
 
 use Spiral\Debug\Dumper;
 use Spiral\Debug\Renderer\HtmlRenderer;
+use Spiral\Debug\StateInterface;
 use Spiral\Exceptions\Style\HtmlStyle;
 
 /**
@@ -26,25 +27,20 @@ class HtmlHandler extends AbstractHandler
     public const DEFAULT  = 'default';
     public const INVERTED = 'inverted';
 
-    /**
-     * @var HtmlRenderer
-     */
+    /** @var HtmlRenderer */
     protected $renderer = null;
 
-    /**
-     * @var Highlighter
-     */
+    /** @var Highlighter */
     protected $highlighter = null;
 
-    /**
-     * @var string
-     */
-    private $style = self::DEFAULT;
+    /** @var string */
+    protected $style = self::DEFAULT;
 
-    /**
-     * @var Dumper
-     */
-    private $dumper = null;
+    /** @var Dumper */
+    protected $dumper = null;
+
+    /** @var StateInterface|null */
+    protected $state;
 
     /**
      * @param string $style
@@ -66,6 +62,18 @@ class HtmlHandler extends AbstractHandler
     }
 
     /**
+     * @param StateInterface $state
+     * @return HandlerInterface
+     */
+    public function withState(StateInterface $state): HandlerInterface
+    {
+        $handler = clone $this;
+        $handler->state = $state;
+
+        return $handler;
+    }
+
+    /**
      * @inheritdoc
      */
     public function renderException(\Throwable $e, int $verbosity = self::VERBOSITY_BASIC): string
@@ -76,7 +84,9 @@ class HtmlHandler extends AbstractHandler
             'valueWrapper' => new ValueWrapper($this->dumper, $this->renderer, $verbosity),
             'style'        => $this->render('styles/' . $this->style),
             'footer'       => $this->render('partials/footer'),
-            'environment'  => '',
+            'variables'    => '',
+            'logs'         => '',
+            'tags'         => '',
         ];
 
         $options['stacktrace'] = $this->render('partials/stacktrace', [
@@ -95,11 +105,24 @@ class HtmlHandler extends AbstractHandler
             'valueWrapper' => $options['valueWrapper'],
         ]);
 
-        if ($verbosity >= self::VERBOSITY_DEBUG) {
-            $options['environment'] = $this->render(
-                'partials/environment',
-                ['dumper' => $this->dumper]
-            );
+        if ($this->state !== null) {
+            if ($this->state->getTags() !== []) {
+                $options['tags'] = $this->render('partials/tags', [
+                    'tags' => $this->state->getTags()
+                ]);
+            }
+
+            if ($this->state->getLogEvents() !== []) {
+                $options['logs'] = $this->render('partials/logs', [
+                    'logEvents' => $this->state->getLogEvents()
+                ]);
+            }
+
+            if ($this->state->getVariables() !== []) {
+                $options['variables'] = $this->render('partials/variables', [
+                    'variables' => $this->state->getVariables()
+                ]);
+            }
         }
 
         return $this->render('exception', $options);

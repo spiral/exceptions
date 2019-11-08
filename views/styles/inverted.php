@@ -1,16 +1,15 @@
 <style>
     body.spiral-exception {
         font-family: Helvetica, sans-serif;
-        background-color: #231e25;
+        background-color: #e0e0e0;
         font-size: 14px;
         padding: 5px;
-        color: #a1a1a1;
+        color: rgba(71, 86, 105, .95);
     }
 
     .spiral-exception .wrapper {
         padding: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, .7);
-        background-color: #3a3a3a;
+        background-color: #ddd;
     }
 
     .spiral-exception .wrapper strong {
@@ -23,7 +22,7 @@
 
     .spiral-exception .dump {
         padding: 5px;
-        background-color: #232323;
+        background-color: white;
         margin-top: 0;
         display: none;
         overflow-x: auto;
@@ -31,8 +30,8 @@
 
     .spiral-exception .wrapper .header {
         margin-bottom: 5px;
-        background: #d3833b;
-        border: 2px solid #d3833b;
+        background-color: #990000;
+        border: 2px solid #990000;
         padding: 8px 13px 8px 13px;
         color: #fff;
     }
@@ -40,6 +39,7 @@
     .spiral-exception .wrapper .header .previous {
         font-size: 10px;
         opacity: 0.6;
+
         margin-top: 4px;
     }
 
@@ -49,11 +49,10 @@
 
     .spiral-exception .wrapper .query {
         margin-bottom: 5px;
-        background: rgb(251, 217, 139);
-        border: 2px solid rgb(251, 217, 139);
+        background-color: #ffeaaa;
+        border: 2px solid #ffeaaa;
         padding: 8px 13px 8px 18px;
         color: black;
-        box-shadow: inset 0 0 8px rgba(0, 0, 0, .2);
         white-space: pre;
     }
 
@@ -70,14 +69,13 @@
 
     .spiral-exception .wrapper .stacktrace .trace .container {
         padding: 15px;
-        background-color: #2e2e2e;
+        background-color: white;
         margin-bottom: 5px;
         overflow-x: auto;
-        box-shadow: inset 0 0 20px rgba(0, 0, 0, .2);
     }
 
     .spiral-exception .wrapper .stacktrace .trace .container.no-trace {
-        color: #6bbdff;
+        color: black;
     }
 
     .spiral-exception .wrapper .stacktrace .trace .container.no-trace .arguments span {
@@ -89,7 +87,7 @@
     }
 
     .spiral-exception .wrapper .stacktrace .trace .location {
-        color: #6bbdff;
+        color: black;
         margin-bottom: 5px;
     }
 
@@ -99,13 +97,12 @@
     }
 
     .spiral-exception .wrapper .stacktrace .trace .location em {
-        color: #a1a1a1;
+        color: #636363;
         font-style: normal;
     }
 
     .spiral-exception .wrapper .stacktrace .trace .lines div {
         white-space: pre;
-        color: #E6E1DC;
     }
 
     .spiral-exception .wrapper .stacktrace .trace .lines div .number {
@@ -115,11 +112,11 @@
     }
 
     .spiral-exception .wrapper .stacktrace .trace .lines div:hover {
-        background-color: #404040;
+        background-color: #f2f1f1;
     }
 
     .spiral-exception .wrapper .stacktrace .trace .lines div.active {
-        background-color: #404040;
+        background-color: #fff8b5;
     }
 
     .spiral-exception .wrapper .stacktrace .chain {
@@ -130,15 +127,14 @@
     .spiral-exception .wrapper .stacktrace .chain .calls {
         padding: 10px 10px 10px 10px;
         margin-left: 5px;
-        background-color: #2e2e2e;
+        background-color: white;
         margin-bottom: 5px;
         overflow-x: auto;
-        box-shadow: inset 0 0 20px rgba(0, 0, 0, .2);
     }
 
     .spiral-exception .wrapper .stacktrace .chain .call .function {
         font-size: 11px;
-        color: #6bbdff;
+        color: black;
     }
 
     .spiral-exception .wrapper .stacktrace .chain .call .function .arguments span {
@@ -152,6 +148,7 @@
     .spiral-exception .wrapper .stacktrace .chain .call .location {
         margin-bottom: 10px;
         font-size: 10px;
+        color: #636363;
     }
 
     .spiral-exception .wrapper .stacktrace .chain .dumper {
@@ -163,22 +160,43 @@
     .spiral-exception .wrapper .stacktrace .chain .dumper .close {
         text-align: right;
         padding: 2px;
-        color: #fff;
+        color: #151515;
         cursor: pointer;
         font-size: 12px;
-        background-color: #232323;
+        background-color: white;
     }
 
     .spiral-exception .wrapper .stacktrace .chain .dumper .close:hover {
-        background-color: #2c2c2c;
+        background-color: #e5e5e5;
     }
 
-    .spiral-exception .wrapper .environment .container {
+    .spiral-exception .wrapper .variables .container {
         margin-bottom: 9px;
     }
 
-    .spiral-exception .wrapper .environment .title, .spiral-exception .wrapper .messages .title {
-        padding: 10px 10px 10px 5px;
+    .spiral-exception .wrapper .variables .container table tr {
+        background-color: white;
+    }
+
+    .spiral-exception .wrapper .variables .container table tr:nth-child(odd) {
+        background-color: #f6f6f6;
+    }
+
+    .spiral-exception .wrapper .variables .container table tr:hover {
+        background-color: #e5e5e5;
+    }
+
+    .spiral-exception .wrapper .variables .container table td {
+        padding: 3px;
+    }
+
+    .spiral-exception .wrapper .variables .container table td.name {
+        font-weight: bold;
+        vertical-align: top;
+    }
+
+    .spiral-exception .wrapper .variables .title, .spiral-exception .wrapper .messages .title {
+        padding: 7px 7px 7px 5px;
         background-color: #e7c35e;
         font-weight: bold;
         color: #444;
@@ -192,6 +210,74 @@
     }
 
     .spiral-exception .wrapper .footer .date {
-        color: #fafafa;
+        color: #1d1d1d;
+    }
+
+    .spiral-exception .wrapper div.messages {
+        margin-bottom: 10px;
+    }
+
+    .spiral-exception .wrapper div.messages div.title {
+        padding: 7px;
+        padding-left: 5px;
+        background-color: #669933;
+        font-weight: bold;
+        color: white;
+    }
+
+    .spiral-exception .wrapper .messages .container table {
+        width: 100%;
+    }
+
+    .spiral-exception .wrapper .messages .container table tr {
+        background-color: white;
+    }
+
+    .spiral-exception .wrapper .messages .container table tr:nth-child(odd) {
+        background-color: #f8f8f8;
+    }
+
+    .spiral-exception .wrapper .messages .container table tr:hover {
+        background-color: #e5e5e5;
+    }
+
+    .spiral-exception .wrapper .messages .container table td {
+        padding: 3px;
+    }
+
+    .spiral-exception .wrapper .messages .container table td.channel {
+        font-weight: bold;
+        vertical-align: top;
+    }
+
+    .spiral-exception .wrapper .messages .container table td.message {
+        width: 100%;
+        font-family: monospace;
+        white-space: pre;
+    }
+
+    .spiral-exception .wrapper .tags .tag {
+        font-size: 15px;
+        font-family: monospace;
+        margin: 0px 10px 10px 0px;
+        background-color: white;
+        display: inline-block;
+    }
+
+    .spiral-exception .wrapper .tags .tag:hover {
+        background-color: #e5e5e5;
+    }
+
+    .spiral-exception .wrapper .tags .tag .name {
+        font-weight: bold;
+        display: inline-block;
+        padding: 7px;
+        background-color: #5fa4ea;
+        color: white;
+    }
+
+    .spiral-exception .wrapper .tags .tag .value {
+        padding: 7px;
+        display: inline-block;
     }
 </style>

@@ -19,9 +19,9 @@ interface HandlerInterface
     /**
      * Verbosity levels for stack trace.
      */
-    public const VERBOSITY_BASIC = 0;
+    public const VERBOSITY_BASIC   = 0;
     public const VERBOSITY_VERBOSE = 1;
-    public const VERBOSITY_DEBUG = 2;
+    public const VERBOSITY_DEBUG   = 2;
 
     /**
      * Method must return prepared exception message.

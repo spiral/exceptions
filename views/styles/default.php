@@ -4,7 +4,7 @@
         background-color: #e0e0e0;
         font-size: 14px;
         padding: 5px;
-        color: rgba(71,86,105,.95);
+        color: rgba(71, 86, 105, .95);
     }
 
     .spiral-exception .wrapper {
@@ -170,12 +170,33 @@
         background-color: #e5e5e5;
     }
 
-    .spiral-exception .wrapper .environment .container {
+    .spiral-exception .wrapper .variables .container {
         margin-bottom: 9px;
     }
 
-    .spiral-exception .wrapper .environment .title, .spiral-exception .wrapper .messages .title {
-        padding: 10px 10px 10px 5px;
+    .spiral-exception .wrapper .variables .container table tr {
+        background-color: white;
+    }
+
+    .spiral-exception .wrapper .variables .container table tr:nth-child(odd) {
+        background-color: #f6f6f6;
+    }
+
+    .spiral-exception .wrapper .variables .container table tr:hover {
+        background-color: #e5e5e5;
+    }
+
+    .spiral-exception .wrapper .variables .container table td {
+        padding: 3px;
+    }
+
+    .spiral-exception .wrapper .variables .container table td.name {
+        font-weight: bold;
+        vertical-align: top;
+    }
+
+    .spiral-exception .wrapper .variables .title, .spiral-exception .wrapper .messages .title {
+        padding: 7px 7px 7px 5px;
         background-color: #e7c35e;
         font-weight: bold;
         color: #444;
@@ -190,5 +211,73 @@
 
     .spiral-exception .wrapper .footer .date {
         color: #1d1d1d;
+    }
+
+    .spiral-exception .wrapper div.messages {
+        margin-bottom: 10px;
+    }
+
+    .spiral-exception .wrapper div.messages div.title {
+        padding: 7px;
+        padding-left: 5px;
+        background-color: #669933;
+        font-weight: bold;
+        color: white;
+    }
+
+    .spiral-exception .wrapper .messages .container table {
+        width: 100%;
+    }
+
+    .spiral-exception .wrapper .messages .container table tr {
+        background-color: white;
+    }
+
+    .spiral-exception .wrapper .messages .container table tr:nth-child(odd) {
+        background-color: #f8f8f8;
+    }
+
+    .spiral-exception .wrapper .messages .container table tr:hover {
+        background-color: #e5e5e5;
+    }
+
+    .spiral-exception .wrapper .messages .container table td {
+        padding: 3px;
+    }
+
+    .spiral-exception .wrapper .messages .container table td.channel {
+        font-weight: bold;
+        vertical-align: top;
+    }
+
+    .spiral-exception .wrapper .messages .container table td.message {
+        width: 100%;
+        font-family: monospace;
+        white-space: pre;
+    }
+
+    .spiral-exception .wrapper .tags .tag {
+        font-size: 15px;
+        font-family: monospace;
+        margin: 0px 10px 10px 0px;
+        background-color: white;
+        display: inline-block;
+    }
+
+    .spiral-exception .wrapper .tags .tag:hover {
+        background-color: #e5e5e5;
+    }
+
+    .spiral-exception .wrapper .tags .tag .name {
+        font-weight: bold;
+        display: inline-block;
+        padding: 7px;
+        background-color: #5fa4ea;
+        color: white;
+    }
+
+    .spiral-exception .wrapper .tags .tag .value {
+        padding: 7px;
+        display: inline-block;
     }
 </style>

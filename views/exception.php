@@ -1,13 +1,16 @@
 <?php
 /**
- * @var Throwable                       $exception
- * @var string                          $message
- * @var string                          $style
- * @var string                          $environment
- * @var string                          $footer
- * @var string                          $stacktrace
- * @var string                          $chain
- * @var \Spiral\Exceptions\ValueWrapper $valueWrapper
+ * @var Throwable                         $exception
+ * @var string                            $message
+ * @var string                            $style
+ * @var string                            $variables
+ * @var string                            $footer
+ * @var string                            $stacktrace
+ * @var string                            $chain
+ * @var string                            $logs
+ * @var string                            $tags
+ * @var \Spiral\Exceptions\ValueWrapper   $valueWrapper
+ * @var \Spiral\Debug\StateInterface|null $state
  */
 ?>
 <!DOCTYPE html>
@@ -25,16 +28,12 @@
         in&nbsp;<i><?= $exception->getFile() ?></i>&nbsp;at&nbsp;<strong>line&nbsp;<?= $exception->getLine() ?></strong>
         <?php
         $prev = $exception->getPrevious();
-        while ($prev instanceof Throwable) {
-            ?>
+        while ($prev instanceof Throwable) : ?>
             <div class="previous">
                 &bull; caused by <?= get_class($prev) ?>: <strong><?= $prev->getMessage() ?></strong>
                 in&nbsp;<i><?= $prev->getFile() ?></i>&nbsp;at&nbsp;<strong>line&nbsp;<?= $prev->getLine() ?></strong>
             </div>
-            <?php
-            $prev = $prev->getPrevious();
-        }
-        ?>
+            <?php $prev = $prev->getPrevious(); endwhile; ?>
     </div>
     <div class="stacktrace">
         <div class="trace">
@@ -52,7 +51,9 @@
         echo "<div id=\"argument-{$id}\" style=\"display: none\">{$content}</div>";
     }
     ?>
-    <?= $environment ?>
+    <?= $tags ?>
+    <?= $logs ?>
+    <?= $variables ?>
     <?= $footer ?>
 </div>
 <script type="text/javascript">

@@ -25,7 +25,10 @@ use Spiral\Exceptions\Style\PlainStyle;
  */
 class ConsoleHandler extends AbstractHandler
 {
-    public const COLORS = [
+    // Lines to show around targeted line.
+    public const SHOW_LINES = 2;
+
+    protected const COLORS = [
         'bg:red'     => Color::BG_RED,
         'bg:cyan'    => Color::BG_CYAN,
         'bg:magenta' => Color::BG_MAGENTA,
@@ -38,12 +41,7 @@ class ConsoleHandler extends AbstractHandler
         'reset'      => Color::RESET,
     ];
 
-    // Lines to show around targeted line.
-    public const SHOW_LINES = 2;
-
-    /**
-     * @var StyleInterface
-     */
+    /** @var StyleInterface */
     private $colorsSupport;
 
     /**
