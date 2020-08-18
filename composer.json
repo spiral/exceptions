@@ -1,12 +1,12 @@
 {
-    "name": "spiral/framework",
+    "name": "spiral/exceptions",
     "type": "library",
-    "description": "Spiral, High-Performance PHP/Go Framework",
-    "homepage": "https://spiral.dev",
+    "description": "Exceptions Toolkit: exception and error handler, CLI and HTML renderer",
     "license": "MIT",
+    "homepage": "https://spiral.dev",
     "support": {
         "issues": "https://github.com/spiral/framework/issues",
-        "source": "https://github.com/spiral/framework"
+        "source": "https://github.com/spiral/exceptions"
     },
     "authors": [
         {
@@ -14,107 +14,25 @@
             "email": "wolfy.jd@gmail.com"
         }
     ],
-    "bin": [
-        "bin/spiral"
-    ],
     "require": {
         "php": "^7.2",
         "ext-json": "*",
-        "codedungeon/php-cli-colors": "~1.0",
-        "defuse/php-encryption": "^2.2",
-        "psr/container": "^1.0",
-        "psr/log": "^1.0",
-        "spiral/boot": "^1.1",
-        "spiral/composer-publish-plugin": "^1.0",
-        "spiral/tokenizer": "^2.0"
-    },
-    "autoload": {
-        "files": [
-            "src/Dumper/src/helpers.php",
-            "src/Framework/helpers.php"
-        ],
-        "psr-4": {
-            "Spiral\\": "src/Framework",
-            "Spiral\\Auth\\": "src/Auth/src",
-            "Spiral\\Config\\": "src/Config/src",
-            "Spiral\\Core\\": "src/Core/src",
-            "Spiral\\Debug\\": [
-                "src/Debug/src",
-                "src/Dumper/src"
-            ],
-            "Spiral\\Encrypter\\": "src/Encrypter/src",
-            "Spiral\\Files\\": "src/Files/src",
-            "Spiral\\Logger\\": "src/Logger/src",
-            "Spiral\\Models\\": "src/Models/src"
-        }
+        "ext-mbstring": "*",
+        "spiral/dumper": "^2.6",
+        "spiral/debug": "^2.6"
     },
     "require-dev": {
-        "cycle/annotated": "^2.0",
-        "cycle/migrations": "^1.0",
-        "cycle/orm": "^1.0",
-        "cycle/proxy-factory": "^1.0",
-        "mockery/mockery": "^1.1",
-        "phpunit/phpunit": "^8.5|^9.0",
-        "roave/security-advisories": "dev-master",
-        "spiral/auth-http": "^1.1",
-        "spiral/broadcast": "^2.0",
-        "spiral/broadcast-ws": "^1.0",
-        "spiral/code-style": "^1.0",
-        "spiral/console": "^1.0",
-        "spiral/cookies": "^1.2",
-        "spiral/csrf": "^1.1",
-        "spiral/database": "^2.4",
-        "spiral/filters": "^1.0",
-        "spiral/http": "^1.0",
-        "spiral/jobs": "^2.0",
-        "spiral/migrations": "^2.0",
-        "spiral/php-grpc": "^1.0",
-        "spiral/roadrunner": "^1.2",
-        "spiral/router": "^1.0",
-        "spiral/security": "^2.0",
-        "spiral/session": "^1.2.2",
-        "spiral/snapshots": "^1.0",
-        "spiral/translator": "^1.2",
-        "spiral/validation": "^1.4.4",
-        "spiral/views": "^1.0",
-        "symplify/monorepo-builder": "^7.0"
+        "phpunit/phpunit": "^8.5|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spiral\\Exceptions\\": "src"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spiral\\App\\": "tests/app/src",
-            "Spiral\\Tests\\Auth\\": "src/Auth/tests",
-            "Spiral\\Tests\\Config\\": "src/Config/tests",
-            "Spiral\\Tests\\Core\\": "src/Core/tests",
-            "Spiral\\Tests\\Debug\\": [
-                "src/Debug/tests",
-                "src/Dumper/tests"
-            ],
-            "Spiral\\Tests\\Encrypter\\": "src/Encrypter/tests",
-            "Spiral\\Tests\\Files\\": "src/Files/tests",
-            "Spiral\\Tests\\Framework\\": "tests/Framework",
-            "Spiral\\Tests\\Logger\\": "src/Logger/tests",
-            "Spiral\\Tests\\Models\\": "src/Models/tests"
+            "Spiral\\Tests\\Exceptions\\": "tests"
         }
-    },
-    "replace": {
-        "spiral/auth": "*",
-        "spiral/config": "*",
-        "spiral/core": "*",
-        "spiral/debug": "*",
-        "spiral/dumper": "*",
-        "spiral/encrypter": "*",
-        "spiral/files": "*",
-        "spiral/logger": "*",
-        "spiral/models": "*"
-    },
-    "scripts": {
-        "cs": "spiral-cs check src tests",
-        "cs-fix": "spiral-cs fix src tests",
-        "merge": [
-            "monorepo-builder merge",
-            "@php bin/sync"
-        ],
-        "split": "monorepo-builder split"
     },
     "extra": {
         "branch-alias": {
