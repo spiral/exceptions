@@ -1,20 +1,12 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
-namespace Spiral\Tests\Exceptions;
+namespace Spiral\Tests\Exceptions\Renderer;
 
 use PHPUnit\Framework\TestCase;
-use Spiral\Exceptions\Highlighter;
+use Spiral\Exceptions\Renderer\Highlighter;
 use Spiral\Exceptions\Style\ConsoleStyle;
-use Spiral\Exceptions\Style\HtmlStyle;
 use Spiral\Exceptions\Style\PlainStyle;
 
 class HighlighterTest extends TestCase
@@ -22,20 +14,6 @@ class HighlighterTest extends TestCase
     public function testPlainHighlighter(): void
     {
         $highlighter = new Highlighter(new PlainStyle());
-
-        $this->assertStringContainsString('HighlighterTest', $highlighter->highlight(file_get_contents(__FILE__)));
-    }
-
-    public function testHtmlHighlighter(): void
-    {
-        $highlighter = new Highlighter(new HtmlStyle(HtmlStyle::DEFAULT));
-
-        $this->assertStringContainsString('HighlighterTest', $highlighter->highlight(file_get_contents(__FILE__)));
-    }
-
-    public function testInvertedHtmlHighlighter(): void
-    {
-        $highlighter = new Highlighter(new HtmlStyle(HtmlStyle::INVERTED));
 
         $this->assertStringContainsString('HighlighterTest', $highlighter->highlight(file_get_contents(__FILE__)));
     }
@@ -50,26 +28,6 @@ class HighlighterTest extends TestCase
     public function testPlainHighlighterLines(): void
     {
         $highlighter = new Highlighter(new PlainStyle());
-
-        $this->assertStringContainsString(
-            'HighlighterTest',
-            $highlighter->highlightLines(file_get_contents(__FILE__), 17)
-        );
-    }
-
-    public function testHtmlHighlighterLines(): void
-    {
-        $highlighter = new Highlighter(new HtmlStyle(HtmlStyle::DEFAULT));
-
-        $this->assertStringContainsString(
-            'HighlighterTest',
-            $highlighter->highlightLines(file_get_contents(__FILE__), 17)
-        );
-    }
-
-    public function testInvertedHtmlHighlighterLines(): void
-    {
-        $highlighter = new Highlighter(new HtmlStyle(HtmlStyle::INVERTED));
 
         $this->assertStringContainsString(
             'HighlighterTest',

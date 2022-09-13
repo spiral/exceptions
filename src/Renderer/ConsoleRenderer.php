@@ -1,32 +1,26 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
-namespace Spiral\Exceptions;
+namespace Spiral\Exceptions\Renderer;
 
 use Codedungeon\PHPCliColors\Color;
-use Spiral\Debug\System;
 use Spiral\Exceptions\Style\ConsoleStyle;
 use Spiral\Exceptions\Style\PlainStyle;
+use Spiral\Exceptions\Verbosity;
 
 /**
  * Verbosity levels:
  *
- * 1) BASIC   - only message header and line number
- * 2) VERBOSE - stack information
- * 3) DEBUG   - stack and source information.
+ * 1) {@see Verbosity::BASIC} - only message header and line number
+ * 2) {@see Verbosity::VERBOSE} - stack information
+ * 3) {@see Verbosity::DEBUG} - stack and source information.
  */
-class ConsoleHandler extends AbstractHandler
+class ConsoleRenderer extends AbstractRenderer
 {
     // Lines to show around targeted line.
     public const SHOW_LINES = 2;
+    protected const FORMATS = ['console', 'cli'];
 
     protected const COLORS = [
         'bg:red'     => Color::BG_RED,
@@ -41,15 +35,15 @@ class ConsoleHandler extends AbstractHandler
         'reset'      => Color::RESET,
     ];
 
-    /** @var StyleInterface */
-    private $colorsSupport;
+    private bool $colorsSupport;
 
     /**
      * @param bool|resource $stream
      */
-    public function __construct($stream = STDOUT)
+    public function __construct(mixed $stream = null)
     {
-        $this->colorsSupport = System::isColorsSupported($stream);
+        $stream ??= \defined('\STDOUT') ? '\STDOUT' : \fopen('php://stdout', 'wb');
+        $this->colorsSupport = $this->isColorsSupported($stream);
     }
 
     /**
@@ -60,31 +54,30 @@ class ConsoleHandler extends AbstractHandler
         $this->colorsSupport = $enabled;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function renderException(\Throwable $e, int $verbosity = self::VERBOSITY_BASIC): string
-    {
-        $result = '';
+    public function render(
+        \Throwable $exception,
+        ?Verbosity $verbosity = null,
+        string $format = null
+    ): string {
+        $verbosity ??= $this->defaultVerbosity;
 
-        if ($e instanceof \Error) {
-            $result .= $this->renderHeader('[' . get_class($e) . "]\n" . $e->getMessage(), 'bg:magenta,white');
-        } else {
-            $result .= $this->renderHeader('[' . get_class($e) . "]\n" . $e->getMessage(), 'bg:red,white');
-        }
+        $result = $this->renderHeader(
+            \sprintf("[%s]\n%s", $exception::class, $exception->getMessage()),
+            $exception instanceof \Error ? 'bg:magenta,white' : 'bg:red,white'
+        );
 
         $result .= $this->format(
             "<yellow>in</reset> <green>%s</reset><yellow>:</reset><white>%s</reset>\n",
-            $e->getFile(),
-            $e->getLine()
+            $exception->getFile(),
+            $exception->getLine()
         );
 
-        if ($verbosity >= self::VERBOSITY_DEBUG) {
-            $result .= $this->renderTrace($e, new Highlighter(
+        if ($verbosity->value >= Verbosity::DEBUG->value) {
+            $result .= $this->renderTrace($exception, new Highlighter(
                 $this->colorsSupport ? new ConsoleStyle() : new PlainStyle()
             ));
-        } elseif ($verbosity >= self::VERBOSITY_VERBOSE) {
-            $result .= $this->renderTrace($e);
+        } elseif ($verbosity->value >= Verbosity::VERBOSE->value) {
+            $result .= $this->renderTrace($exception);
         }
 
         return $result;
@@ -100,11 +93,11 @@ class ConsoleHandler extends AbstractHandler
     {
         $result = '';
 
-        $lines = explode("\n", str_replace("\r", '', $title));
+        $lines = \explode("\n", \str_replace("\r", '', $title));
 
         $length = 0;
-        array_walk($lines, function ($v) use (&$length): void {
-            $length = max($length, mb_strlen($v));
+        \array_walk($lines, static function ($v) use (&$length): void {
+            $length = max($length, \mb_strlen($v));
         });
 
         $length += $padding;
@@ -112,9 +105,9 @@ class ConsoleHandler extends AbstractHandler
         foreach ($lines as $line) {
             $result .= $this->format(
                 "<{$style}>%s%s%s</reset>\n",
-                str_repeat(' ', $padding + 1),
+                \str_repeat(' ', $padding + 1),
                 $line,
-                str_repeat(' ', $length - mb_strlen($line) + 1)
+                \str_repeat(' ', $length - \mb_strlen($line) + 1)
             );
         }
 
@@ -123,8 +116,6 @@ class ConsoleHandler extends AbstractHandler
 
     /**
      * Render exception call stack.
-     *
-     * @param Highlighter|null $h
      */
     private function renderTrace(\Throwable $e, Highlighter $h = null): string
     {
@@ -136,7 +127,7 @@ class ConsoleHandler extends AbstractHandler
         $result = $this->format("\n<red>Exception Trace:</reset>\n");
 
         foreach ($stacktrace as $trace) {
-            if (isset($trace['type']) && isset($trace['class'])) {
+            if (isset($trace['type'], $trace['class'])) {
                 $line = $this->format(
                     ' <white>%s%s%s()</reset>',
                     $trace['class'],
@@ -166,9 +157,9 @@ class ConsoleHandler extends AbstractHandler
 
             $result .= $line . "\n";
 
-            if (!empty($h) && !empty($trace['file'])) {
+            if ($h !== null && !empty($trace['file'])) {
                 $result .= $h->highlightLines(
-                    file_get_contents($trace['file']),
+                    \file_get_contents($trace['file']),
                     $trace['line'],
                     static::SHOW_LINES
                 ) . "\n";
@@ -180,17 +171,15 @@ class ConsoleHandler extends AbstractHandler
 
     /**
      * Format string and apply color formatting (if enabled).
-     *
-     * @param mixed  ...$args
      */
-    private function format(string $format, ...$args): string
+    private function format(string $format, mixed ...$args): string
     {
         if (!$this->colorsSupport) {
-            $format = preg_replace('/<[^>]+>/', '', $format);
+            $format = \preg_replace('/<[^>]+>/', '', $format);
         } else {
-            $format = preg_replace_callback('/(<([^>]+)>)/', function ($partial) {
+            $format = \preg_replace_callback('/(<([^>]+)>)/', static function ($partial) {
                 $style = '';
-                foreach (explode(',', trim($partial[2], '/')) as $color) {
+                foreach (\explode(',', \trim($partial[2], '/')) as $color) {
                     if (isset(self::COLORS[$color])) {
                         $style .= self::COLORS[$color];
                     }
@@ -200,6 +189,31 @@ class ConsoleHandler extends AbstractHandler
             }, $format);
         }
 
-        return sprintf($format, ...$args);
+        return \sprintf($format, ...$args);
+    }
+
+    /**
+     * Returns true if the STDOUT supports colorization.
+     * @codeCoverageIgnore
+     * @link https://github.com/symfony/Console/blob/master/Output/StreamOutput.php#L94
+     */
+    private function isColorsSupported(mixed $stream = STDOUT): bool
+    {
+        if ('Hyper' === \getenv('TERM_PROGRAM')) {
+            return true;
+        }
+
+        try {
+            if (\DIRECTORY_SEPARATOR === '\\') {
+                return (\function_exists('sapi_windows_vt100_support') && @\sapi_windows_vt100_support($stream))
+                    || \getenv('ANSICON') !== false
+                    || \getenv('ConEmuANSI') === 'ON'
+                    || \getenv('TERM') === 'xterm';
+            }
+
+            return @\stream_isatty($stream);
+        } catch (\Throwable) {
+            return false;
+        }
     }
 }
