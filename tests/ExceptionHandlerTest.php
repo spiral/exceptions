@@ -36,7 +36,7 @@ class ExceptionHandlerTest extends TestCase
         $handler->setOutput(STDERR);
 
         \fseek($output, 0);
-        self::assertStringContainsString('Test message', \fread($output, 10000));
+        $this->assertStringContainsString('Test message', \fread($output, 10000));
     }
 
     public function testDefaultErrorRenderer(): void
@@ -49,14 +49,14 @@ class ExceptionHandlerTest extends TestCase
         $handler->addRenderer($r2);
         $handler->addRenderer($r3);
 
-        self::assertSame($r1, $handler->getRenderer());
+        $this->assertSame($r1, $handler->getRenderer());
     }
 
     public function testDefaultErrorRendererFromEmptyExceptionHandler(): void
     {
         $handler = $this->makeEmptyErrorHandler();
 
-        self::assertNull($handler->getRenderer());
+        $this->assertNull($handler->getRenderer());
     }
 
     public function testErrorHandlerByFormat(): void
@@ -74,7 +74,7 @@ class ExceptionHandlerTest extends TestCase
         $handler->addRenderer($r2);
         $handler->addRenderer($r3);
 
-        self::assertSame($r1, $handler->getRenderer('test'));
+        $this->assertSame($r1, $handler->getRenderer('test'));
     }
 
     public function testAllReportersShouldBeCalled(): void
@@ -96,7 +96,7 @@ class ExceptionHandlerTest extends TestCase
         $handler->addReporter($r4);
 
         $handler->report($exception);
-        self::assertTrue(true);
+        $this->assertTrue(true);
     }
 
     #[DataProvider('nonReportableExceptionsDataProvider')]
@@ -115,7 +115,7 @@ class ExceptionHandlerTest extends TestCase
     {
         $handler = $this->makeEmptyErrorHandler();
         $ref = new \ReflectionProperty($handler, 'nonReportableExceptions');
-        self::assertSame([
+        $this->assertSame([
             BadRequestException::class,
             ForbiddenException::class,
             NotFoundException::class,
@@ -126,7 +126,7 @@ class ExceptionHandlerTest extends TestCase
 
         $handler->dontReport(\DomainException::class);
 
-        self::assertSame([
+        $this->assertSame([
             BadRequestException::class,
             ForbiddenException::class,
             NotFoundException::class,
