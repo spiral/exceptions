@@ -40,7 +40,7 @@ final class LoggerReporterTest extends TestCase
 
         $handler->report($exception);
 
-        self::assertTrue(true);
+        $this->assertTrue(true);
     }
 
     public function testReportWithoutLogger(): void
@@ -56,6 +56,6 @@ final class LoggerReporterTest extends TestCase
         $handler->report(new \Exception());
 
         // any errors
-        self::assertTrue(true);
+        $this->assertTrue(true);
     }
 }

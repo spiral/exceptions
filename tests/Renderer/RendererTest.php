@@ -15,17 +15,17 @@ class RendererTest extends TestCase
     {
         $handler = new ConsoleRenderer();
 
-        self::assertStringContainsString('Error', $handler->render(new \Error(
+        $this->assertStringContainsString('Error', $handler->render(new \Error(
             'message',
             100,
         )));
 
-        self::assertStringContainsString('message', $handler->render(new \Error(
+        $this->assertStringContainsString('message', $handler->render(new \Error(
             'message',
             100,
         )));
 
-        self::assertStringContainsString('RendererTest.php', $handler->render(new \Error(
+        $this->assertStringContainsString('RendererTest.php', $handler->render(new \Error(
             'message',
             100,
         )));
@@ -41,9 +41,12 @@ class RendererTest extends TestCase
             100,
         ), \Spiral\Exceptions\Verbosity::BASIC);
 
-        self::assertStringContainsString('Error', $result);
-        self::assertStringContainsString('message', $result);
-        self::assertStringContainsString('src/Exceptions/tests/Renderer/RendererTest.php', \str_replace('\\', '/', $result));
+        $this->assertStringContainsString('Error', $result);
+        $this->assertStringContainsString('message', $result);
+        $this->assertStringContainsString(
+            'src/Exceptions/tests/Renderer/RendererTest.php',
+            \str_replace('\\', '/', $result),
+        );
     }
 
     public function testConsoleRendererErrorBasic(): void
@@ -52,9 +55,12 @@ class RendererTest extends TestCase
         $handler->setColorsSupport(true);
         $result = $handler->render(new \Error('message', 100), \Spiral\Exceptions\Verbosity::BASIC);
 
-        self::assertStringContainsString('Error', $result);
-        self::assertStringContainsString('message', $result);
-        self::assertStringContainsString('src/Exceptions/tests/Renderer/RendererTest.php', \str_replace('\\', '/', $result));
+        $this->assertStringContainsString('Error', $result);
+        $this->assertStringContainsString('message', $result);
+        $this->assertStringContainsString(
+            'src/Exceptions/tests/Renderer/RendererTest.php',
+            \str_replace('\\', '/', $result),
+        );
     }
 
     public function testConsoleRendererErrorVerbose(): void
@@ -63,9 +69,12 @@ class RendererTest extends TestCase
         $handler->setColorsSupport(true);
         $result = $handler->render(new \Error('message', 100), \Spiral\Exceptions\Verbosity::VERBOSE);
 
-        self::assertStringContainsString('Error', $result);
-        self::assertStringContainsString('message', $result);
-        self::assertStringContainsString('src/Exceptions/tests/Renderer/RendererTest.php', \str_replace('\\', '/', $result));
+        $this->assertStringContainsString('Error', $result);
+        $this->assertStringContainsString('message', $result);
+        $this->assertStringContainsString(
+            'src/Exceptions/tests/Renderer/RendererTest.php',
+            \str_replace('\\', '/', $result),
+        );
     }
 
     public function testConsoleRendererWithColorsBasic(): void
@@ -78,9 +87,12 @@ class RendererTest extends TestCase
             100,
         ), \Spiral\Exceptions\Verbosity::BASIC);
 
-        self::assertStringContainsString('Error', $result);
-        self::assertStringContainsString('message', $result);
-        self::assertStringContainsString('src/Exceptions/tests/Renderer/RendererTest.php', \str_replace('\\', '/', $result));
+        $this->assertStringContainsString('Error', $result);
+        $this->assertStringContainsString('message', $result);
+        $this->assertStringContainsString(
+            'src/Exceptions/tests/Renderer/RendererTest.php',
+            \str_replace('\\', '/', $result),
+        );
     }
 
     public function testConsoleRendererWithColorsDebug(): void
@@ -93,9 +105,12 @@ class RendererTest extends TestCase
             100,
         ), \Spiral\Exceptions\Verbosity::DEBUG);
 
-        self::assertStringContainsString('Error', $result);
-        self::assertStringContainsString('message', $result);
-        self::assertStringContainsString('src/Exceptions/tests/Renderer/RendererTest.php', \str_replace('\\', '/', $result));
+        $this->assertStringContainsString('Error', $result);
+        $this->assertStringContainsString('message', $result);
+        $this->assertStringContainsString(
+            'src/Exceptions/tests/Renderer/RendererTest.php',
+            \str_replace('\\', '/', $result),
+        );
     }
 
     public function testConsoleRendererStacktrace(): void
@@ -110,8 +125,8 @@ class RendererTest extends TestCase
 
         $result = $handler->render($e, \Spiral\Exceptions\Verbosity::DEBUG);
 
-        self::assertStringContainsString('LogicException', $result);
-        self::assertStringContainsString('makeException', $result);
+        $this->assertStringContainsString('LogicException', $result);
+        $this->assertStringContainsString('makeException', $result);
     }
 
     public function testPlainRendererStacktrace(): void
@@ -125,8 +140,8 @@ class RendererTest extends TestCase
 
         $result = $handler->render($e, \Spiral\Exceptions\Verbosity::DEBUG);
 
-        self::assertStringContainsString('LogicException', $result);
-        self::assertStringContainsString('makeException', $result);
+        $this->assertStringContainsString('LogicException', $result);
+        $this->assertStringContainsString('makeException', $result);
     }
 
     public function testJsonRenderer(): void
@@ -140,8 +155,8 @@ class RendererTest extends TestCase
 
         $result = $handler->render($e, \Spiral\Exceptions\Verbosity::DEBUG);
 
-        self::assertStringContainsString('LogicException', $result);
-        self::assertStringContainsString('makeException', $result);
+        $this->assertStringContainsString('LogicException', $result);
+        $this->assertStringContainsString('makeException', $result);
     }
 
     public function makeException(): void
