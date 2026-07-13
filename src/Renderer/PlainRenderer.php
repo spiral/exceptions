@@ -10,7 +10,6 @@ use Spiral\Exceptions\Verbosity;
 final class PlainRenderer extends AbstractRenderer
 {
     protected const FORMATS = ['text/plain', 'text', 'plain', 'cli', 'console'];
-
     // Lines to show around targeted line.
     private const SHOW_LINES = 2;
 
@@ -19,7 +18,7 @@ final class PlainRenderer extends AbstractRenderer
     public function render(
         \Throwable $exception,
         ?Verbosity $verbosity = null,
-        ?string $format = null,
+        string $format = null
     ): string {
         $verbosity ??= $this->defaultVerbosity;
         $exceptions = [$exception];
@@ -62,7 +61,7 @@ final class PlainRenderer extends AbstractRenderer
     /**
      * Render exception call stack.
      */
-    private function renderTrace(\Throwable $e, ?Highlighter $h = null): string
+    private function renderTrace(\Throwable $e, Highlighter $h = null): string
     {
         $stacktrace = $this->getStacktrace($e);
         if ($stacktrace === []) {
@@ -72,24 +71,25 @@ final class PlainRenderer extends AbstractRenderer
         $result = "\n";
         $rootDir = \getcwd();
 
-        $pad = \strlen((string) \count($stacktrace));
+        $pad = \strlen((string)\count($stacktrace));
 
         foreach ($stacktrace as $i => $trace) {
             if (isset($trace['type'], $trace['class'])) {
                 $line = \sprintf(
                     '%s. %s%s%s()',
-                    \str_pad((string) ((int) $i + 1), $pad, ' ', \STR_PAD_LEFT),
+                    \str_pad((string)((int) $i + 1), $pad, ' ', \STR_PAD_LEFT),
                     $trace['class'],
                     $trace['type'],
-                    $trace['function'],
+                    $trace['function']
                 );
             } else {
                 $line = $trace['function'];
             }
 
             if (isset($trace['file'])) {
-                $file = (string) $trace['file'];
-                \str_starts_with($file, $rootDir) and $file = \substr($file, \strlen($rootDir) + 1);
+                $file = \str_starts_with($trace['file'], $rootDir)
+                    ? \substr($trace['file'], \strlen($rootDir) + 1)
+                    : $trace['file'];
 
                 $line .= \sprintf(' at %s:%s', $file, $trace['line']);
             }
@@ -102,14 +102,12 @@ final class PlainRenderer extends AbstractRenderer
 
             $result .= $line . "\n";
 
-            if ($h !== null && !empty($trace['file']) && \is_file($trace['file'])) {
-                $str = @\file_get_contents($trace['file']);
+            if ($h !== null && !empty($trace['file'])) {
                 $result .= $h->highlightLines(
-                    $str,
+                    \file_get_contents($trace['file']),
                     $trace['line'],
-                    self::SHOW_LINES,
+                    self::SHOW_LINES
                 ) . "\n";
-                unset($str);
             }
         }
 

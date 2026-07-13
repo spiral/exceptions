@@ -7,4 +7,6 @@ namespace Spiral\Exceptions\Exception;
 /**
  * Raised on fatal exceptions.
  */
-class FatalException extends \ErrorException {}
+class FatalException extends \ErrorException
+{
+}

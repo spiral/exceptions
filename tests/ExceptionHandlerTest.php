@@ -7,6 +7,7 @@ namespace Spiral\Tests\Exceptions;
 use Mockery as m;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Spiral\Exceptions\ExceptionHandler;
 use Spiral\Exceptions\ExceptionRendererInterface;
 use Spiral\Exceptions\ExceptionReporterInterface;
@@ -18,23 +19,11 @@ use Spiral\Http\Exception\ClientException\NotFoundException;
 use Spiral\Http\Exception\ClientException\UnauthorizedException;
 use Spiral\Tests\Exceptions\Fixtures\TestException;
 
-final class ExceptionHandlerTest extends TestCase
+class ExceptionHandlerTest extends TestCase
 {
-    public static function nonReportableExceptionsDataProvider(): \Traversable
+    protected function tearDown(): void
     {
-        yield [new BadRequestException()];
-        yield [new class extends BadRequestException {}];
-        yield [new NotFoundException()];
-        yield [new class extends NotFoundException {}];
-        yield [new ForbiddenException()];
-        yield [new class extends ForbiddenException {}];
-        yield [new UnauthorizedException()];
-        yield [new class extends UnauthorizedException {}];
-        yield [new AuthorizationException()];
-        yield [new class extends AuthorizationException {}];
-        yield [new ValidationException([])];
-        yield [new class([]) extends ValidationException {}];
-        yield [new TestException()];
+        m::close();
     }
 
     public function testKernelException(): void
@@ -47,7 +36,7 @@ final class ExceptionHandlerTest extends TestCase
         $handler->setOutput(STDERR);
 
         \fseek($output, 0);
-        self::assertStringContainsString('Test message', (string) \fread($output, 10000));
+        $this->assertStringContainsString('Test message', \fread($output, 10000));
     }
 
     public function testDefaultErrorRenderer(): void
@@ -60,14 +49,14 @@ final class ExceptionHandlerTest extends TestCase
         $handler->addRenderer($r2);
         $handler->addRenderer($r3);
 
-        self::assertSame($r1, $handler->getRenderer());
+        $this->assertSame($r1, $handler->getRenderer());
     }
 
     public function testDefaultErrorRendererFromEmptyExceptionHandler(): void
     {
         $handler = $this->makeEmptyErrorHandler();
 
-        self::assertNull($handler->getRenderer());
+        $this->assertNull($handler->getRenderer());
     }
 
     public function testErrorHandlerByFormat(): void
@@ -85,7 +74,7 @@ final class ExceptionHandlerTest extends TestCase
         $handler->addRenderer($r2);
         $handler->addRenderer($r3);
 
-        self::assertSame($r1, $handler->getRenderer('test'));
+        $this->assertSame($r1, $handler->getRenderer('test'));
     }
 
     public function testAllReportersShouldBeCalled(): void
@@ -97,7 +86,7 @@ final class ExceptionHandlerTest extends TestCase
         $r2 = m::mock(ExceptionReporterInterface::class);
         $r2->shouldReceive('report')->withArgs([$exception])->once();
         $r3 = m::mock(ExceptionReporterInterface::class);
-        $r3->shouldReceive('report')->withArgs([$exception])->once()->andThrows(new \RuntimeException());
+        $r3->shouldReceive('report')->withArgs([$exception])->once()->andThrows(new RuntimeException());
         $r4 = m::mock(ExceptionReporterInterface::class);
         $r4->shouldReceive('report')->withArgs([$exception])->once();
         $handler = $this->makeEmptyErrorHandler();
@@ -107,14 +96,14 @@ final class ExceptionHandlerTest extends TestCase
         $handler->addReporter($r4);
 
         $handler->report($exception);
-        self::assertTrue(true);
+        $this->assertTrue(true);
     }
 
     #[DataProvider('nonReportableExceptionsDataProvider')]
     public function testNonReportableExceptions(\Throwable $exception): void
     {
         $reporter = $this->createMock(ExceptionReporterInterface::class);
-        $reporter->expects(self::never())->method('report');
+        $reporter->expects($this->never())->method('report');
 
         $handler = $this->makeEmptyErrorHandler();
         $handler->addReporter($reporter);
@@ -126,7 +115,7 @@ final class ExceptionHandlerTest extends TestCase
     {
         $handler = $this->makeEmptyErrorHandler();
         $ref = new \ReflectionProperty($handler, 'nonReportableExceptions');
-        self::assertSame([
+        $this->assertSame([
             BadRequestException::class,
             ForbiddenException::class,
             NotFoundException::class,
@@ -137,31 +126,45 @@ final class ExceptionHandlerTest extends TestCase
 
         $handler->dontReport(\DomainException::class);
 
-        self::assertSame([
+        $this->assertSame([
             BadRequestException::class,
             ForbiddenException::class,
             NotFoundException::class,
             UnauthorizedException::class,
             AuthorizationException::class,
             ValidationException::class,
-            \DomainException::class,
+            \DomainException::class
         ], $ref->getValue($handler));
-    }
-
-    protected function tearDown(): void
-    {
-        m::close();
     }
 
     private function makeEmptyErrorHandler(): ExceptionHandler
     {
         return new class extends ExceptionHandler {
-            protected function bootBasicHandlers(): void {}
+            protected function bootBasicHandlers(): void
+            {
+            }
         };
     }
 
     private function makeErrorHandler(): ExceptionHandler
     {
         return new ExceptionHandler();
+    }
+
+    public static function nonReportableExceptionsDataProvider(): \Traversable
+    {
+        yield [new BadRequestException()];
+        yield [new class extends BadRequestException {}];
+        yield [new NotFoundException()];
+        yield [new class extends NotFoundException {}];
+        yield [new ForbiddenException()];
+        yield [new class extends ForbiddenException {}];
+        yield [new UnauthorizedException()];
+        yield [new class extends UnauthorizedException {}];
+        yield [new AuthorizationException()];
+        yield [new class extends AuthorizationException {}];
+        yield [new ValidationException([])];
+        yield [new class([]) extends ValidationException {}];
+        yield [new TestException()];
     }
 }

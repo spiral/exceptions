@@ -12,8 +12,9 @@ use Spiral\Exceptions\StyleInterface;
 class Highlighter
 {
     public function __construct(
-        private readonly StyleInterface $renderer,
-    ) {}
+        private StyleInterface $renderer
+    ) {
+    }
 
     /**
      * Highlight PHP source and return N lines around target line.

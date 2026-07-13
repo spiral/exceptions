@@ -13,21 +13,19 @@ final class JsonRenderer extends AbstractRenderer
     public function render(
         \Throwable $exception,
         ?Verbosity $verbosity = Verbosity::BASIC,
-        ?string $format = null,
+        string $format = null,
     ): string {
         $verbosity ??= $this->defaultVerbosity;
-        $result = \json_encode([
-            'error' => \sprintf(
+        return \json_encode([
+            'error'      => \sprintf(
                 '[%s] %s as %s:%s',
                 $exception::class,
                 $exception->getMessage(),
                 $exception->getFile(),
-                $exception->getLine(),
+                $exception->getLine()
             ),
             'stacktrace' => \iterator_to_array($this->renderTrace($exception->getTrace(), $verbosity)),
         ]);
-
-        return $result === false ? 'false' : $result;
     }
 
     private function renderTrace(array $trace, Verbosity $verbosity): \Generator
@@ -40,12 +38,12 @@ final class JsonRenderer extends AbstractRenderer
                     '%s%s%s()',
                     $item['class'],
                     $item['type'],
-                    $item['function'],
+                    $item['function']
                 );
             } else {
                 $result['function'] = \sprintf(
                     '%s()',
-                    $item['function'],
+                    $item['function']
                 );
             }
 
